@@ -2,8 +2,18 @@
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
+interface dataprd {
+  quantity: number
+  name: string
+  image: string
+  description: string
+  slugkey: string
+  category: string
+  _id: string
+}
+
 const initialState = {
-  cart: JSON.parse(localStorage.getItem('cart')!) || [],
+  cart: [],
 }
 
 const cartSlice = createSlice({
@@ -11,17 +21,17 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     // them san pham
-    add: (state, actions: PayloadAction<{}>) => {
-      const result: any = actions.payload
+    add: (state, actions: PayloadAction<dataprd>) => {
+      const result: dataprd = actions.payload
       if (state.cart.length === 0) {
-        state.cart.push({ ...result, quantity: 1 })
+        state.cart.push({ ...result, quantity: 1 } as never)
       } else {
         if (state.cart.some((e: any) => e._id === result._id)) {
           state.cart.map((e: any) =>
             e._id === result._id ? (e.quantity += 1) : e
           )
         } else {
-          state.cart.push({ ...result, quantity: 1 })
+          state.cart.push({ ...result, quantity: 1 } as never)
         }
       }
     },
